@@ -10,6 +10,7 @@ require (
 	github.com/juju/errors v1.0.0
 	github.com/rs/zerolog v1.28.0
 	golang.org/x/net v0.1.0
+
 )
 
 require (
