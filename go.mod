@@ -9,7 +9,6 @@ require (
 	github.com/gofrs/uuid v4.3.0+incompatible
 	github.com/juju/errors v1.0.0
 	github.com/rs/zerolog v1.28.0
-	github.com/waynejared/onvif v0.0.9
 	golang.org/x/net v0.1.0
 )
 
@@ -37,3 +36,4 @@ require (
 	golang.org/x/text v0.4.0 // indirect
 	google.golang.org/protobuf v1.28.1 // indirect
 )
+
