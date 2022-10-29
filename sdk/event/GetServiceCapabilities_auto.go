@@ -7,9 +7,9 @@ package event
 import (
 	"context"
 	"github.com/juju/errors"
-	"github.com/waynejared/onvif"
-	"github.com/waynejared/onvif/sdk"
-	"github.com/waynejared/onvif/event"
+	"github.com/use-go/onvif"
+	"github.com/use-go/onvif/sdk"
+	"github.com/use-go/onvif/event"
 )
 
 // Call_GetServiceCapabilities forwards the call to dev.CallMethod() then parses the payload of the reply as a GetServiceCapabilitiesResponse.
