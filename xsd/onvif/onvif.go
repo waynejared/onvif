@@ -1,6 +1,8 @@
 package onvif
 
 import (
+	"encoding/xml"
+
 	"github.com/waynejared/onvif/xsd"
 )
 
@@ -508,9 +510,11 @@ type ItemList struct {
 	Extension   ItemListExtension `xml:"onvif:Extension"`
 }
 
+// WJJ 2022-10-31 "onvif:Name,attr" doesn't work
 type SimpleItem struct {
-	Name  string            `xml:"onvif:Name,attr"`
-	Value xsd.AnySimpleType `xml:"onvif:Value,attr"`
+	XMLName xml.Name          `xml:"SimpleItem"`
+	Name    string            `xml:"Name,attr"`
+	Value   xsd.AnySimpleType `xml:"Value,attr"`
 }
 
 type ElementItem struct {
