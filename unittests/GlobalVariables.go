@@ -3,15 +3,16 @@ package main //package is main so it can be run with "go run unittests/GlobalVar
 import (
 	"fmt"
 	"os"
+
+	_ "github.com/joho/godotenv/autoload"
 )
-import _ "github.com/joho/godotenv/autoload"
 
 func main() {
-	ip := os.Getenv("IP_ADRESS") //this is how you reference variables in .env
-	user := os.Getenv("USERNAME")
-	pass := os.Getenv("PASSWORD")
+	ip := os.Getenv("CAMERA_IP_ADDRESS") //this is how you reference variables in .env
+	user1 := os.Getenv("CAMERA_USERNAME")
+	pass := os.Getenv("CAMERA_PASSWORD")
 
 	fmt.Println(ip)
-	fmt.Println(user)
+	fmt.Println(user1)
 	fmt.Println(pass)
 }
