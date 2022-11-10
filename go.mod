@@ -7,6 +7,7 @@ require (
 	github.com/elgs/gostrgen v0.0.0-20220325073726-0c3e00d082f6
 	github.com/gin-gonic/gin v1.8.1
 	github.com/gofrs/uuid v4.3.0+incompatible
+	github.com/joho/godotenv v1.4.0
 	github.com/juju/errors v1.0.0
 	github.com/rs/zerolog v1.28.0
 	golang.org/x/net v0.1.0

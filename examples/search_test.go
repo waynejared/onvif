@@ -1,10 +1,13 @@
 package main
 
 import (
+	"context"
+	"net/http"
 	"testing"
 
-	ssearch "github.com/waynejared/onvif/sdk/search"
+	"github.com/waynejared/onvif"
 	"github.com/waynejared/onvif/search"
+	ssearch "github.com/waynejared/onvif/sdk/search"
 )
 
 //Preparing commands
@@ -17,7 +20,7 @@ func TestGetServiceCapabilities(t *testing.T) {
 	camera := New()
 	SearchURI := "http://192.168.85.158/onvif/search_service"
 	GSC := search.GetServiceCapabilities{
-		XMLName: `xml:"tse:GetServiceCapabilities"`,
+		XMLName: `xml:"tse:GetServiceCapabilities"`
 	}
 
 	ServiceCapabilities, err := ssearch.Call_GetServiceCapabilities(ctx, camera)
