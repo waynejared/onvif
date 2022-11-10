@@ -13,8 +13,9 @@ import (
 )
 
 const (
-	login    = "admin"
-	password = "Supervisor"
+	login     = "root"
+	password  = "C@nadien3"
+	ipAddress = "192.168.85.158:80"
 )
 
 func main() {
@@ -22,7 +23,7 @@ func main() {
 
 	//Getting an camera instance
 	dev, err := goonvif.NewDevice(goonvif.DeviceParams{
-		Xaddr:      "192.168.13.14:80",
+		Xaddr:      "192.168.85.158:80",
 		Username:   login,
 		Password:   password,
 		HttpClient: new(http.Client),

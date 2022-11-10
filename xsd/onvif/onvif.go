@@ -1874,3 +1874,71 @@ type Date struct {
 	Month xsd.Int `xml:"onvif:Month"`
 	Day   xsd.Int `xml:"onvif:Day"`
 }
+
+// WJJ 2022-11-09
+// Search
+type RecordingSummary struct {
+	DateFrom         xsd.DateTime
+	DateUntil        xsd.DateTime
+	NumberRecordings xsd.Int
+}
+
+type RecordingInformation struct {
+	RecordingToken    RecordingReference
+	Source            RecordingSourceInformation
+	EarliestRecording xsd.DateTime
+	LatestRecording   xsd.DateTime
+	ContentType       Description
+	Track             TrackInformation
+	RecordingStatus   RecordingStatus
+}
+
+type RecordingReference struct {
+	ReferenceToken
+}
+
+type RecordingSourceInformation struct {
+	SourceId    xsd.AnyURI
+	Name        Name
+	Location    Description
+	Description Description
+	Address     xsd.AnyURI
+}
+
+type TrackInformation struct {
+	TrackToken  TrackReference
+	TrackType   TrackType
+	Description Description
+	DataFrom    xsd.DateTime
+	DataTo      xsd.DateTime
+}
+
+type RecordingStatus xsd.String
+
+/* WJJ 2022-11-09 We need to do something like this, but this would make RecordingStatus an int
+                  and it needs to be a string to be properly populated.
+									func (rs RecordingStatus) String() string {
+	return []string{"Initiated", "Recording", "Stopped", "Removing", "Removed", "Unknown"}[rs]
+}
+
+const (
+	Initiated RecordingStatus = iota
+	Recording
+	Stopped
+	Removing
+	Removed
+	Unknown
+)
+*/
+
+type TrackReference ReferenceToken
+
+/*
+	TrackType is an enum with the following values
+
+Video
+Audio
+Metadata
+Extended
+*/
+type TrackType xsd.String

@@ -16,12 +16,12 @@ import (
 )
 
 func TestGetAvailableDevicesAtSpecificEthernetInterface(t *testing.T) {
-	s, err := onvif.GetAvailableDevicesAtSpecificEthernetInterface("en0")
+	s, err := onvif.GetAvailableDevicesAtSpecificEthernetInterface("Wi-Fi")
 	log.Printf("%v %v", err, s)
 }
 
-func client() {
-	dev, err := onvif.NewDevice(onvif.DeviceParams{Xaddr: "192.168.3.10", Username: "admin", Password: "zsyy12345"})
+func TestClient(t *testing.T) {
+	dev, err := onvif.NewDevice(onvif.DeviceParams{Xaddr: "192.168.85.158", Username: "root", Password: "C@nadien3"})
 	if err != nil {
 		panic(err)
 	}
