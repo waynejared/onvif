@@ -1878,8 +1878,8 @@ type Date struct {
 // WJJ 2022-11-09
 // Search
 type RecordingSummary struct {
-	DateFrom         xsd.DateTime
-	DateUntil        xsd.DateTime
+	DataFrom         xsd.DateTime
+	DataUntil        xsd.DateTime
 	NumberRecordings xsd.Int
 }
 
@@ -1942,3 +1942,18 @@ Metadata
 Extended
 */
 type TrackType xsd.String
+
+type SearchScope struct {
+	IncludedSources            SourceReference
+	IncludedRecordings         RecordingReference
+	RecordingInformationFilter xsd.String
+	Extension                  SearchScopeExtension
+}
+
+type SourceReference struct {
+	Type  xsd.AnyURI
+	Token ReferenceToken
+}
+
+type SearchScopeExtension struct {
+}

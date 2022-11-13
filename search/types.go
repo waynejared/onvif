@@ -23,7 +23,7 @@ type GetRecordingSummary struct {
 	XMLName string `xml:"tse:GetRecordingSummary"`
 }
 type GetRecordingSummaryResponse struct {
-	Summary onvif.RecordingSummary `xml:"tse:RecordingSummary"`
+	Summary onvif.RecordingSummary
 }
 type GetRecordingInformation struct {
 	RecordingToken onvif.RecordingReference `xml:"tse:RecordingReference"`
@@ -36,8 +36,8 @@ type GetMediaAttributes struct {
 type GetMediaAttributesResponse struct {
 }
 type FindRecordings struct {
-	Scope         onvif.Scope
-	MaxMatches    int
+	Scope         onvif.SearchScope
+	MaxMatches    xsd.Int
 	KeepAliveTime xsd.Duration
 }
 type FindRecordingsResponse struct {
@@ -73,6 +73,15 @@ type GetEventSearchResultsResponse struct {
 
 type FindEventResultList struct {
 	SearchState State `xml:"tt:SearchState"`
+	Result      FindEventResult
+}
+
+type FindEventResult struct {
+	RecordingToken  onvif.RecordingReference
+	TrackToken      onvif.TrackReference
+	Time            onvif.DateTime
+	Event           event.NotificationMessageHolderType
+	StartStateEvent xsd.Boolean
 }
 
 type State xsd.String
