@@ -115,7 +115,9 @@ type GetSearchState struct {
 	SearchToken xsd.Token
 }
 type GetSearchStateResponse struct {
+	State xsd.String
 }
+
 type EndSearch struct {
 	SearchToken xsd.Token
 }
