@@ -32,10 +32,10 @@ type MessageNotification struct {
 }
 
 type MessageNotificationHolderType struct {
-	UtcTime           xsd.DateTime     `xml:",attr"`
-	PropertyOperation xsd.String       `xml:",attr"`
-	Source            onvif.SimpleItem `xml:"Source>SimpleItem"`
-	Data              onvif.SimpleItem `xml:"Data>SimpleItem"`
+	UtcTime           xsd.DateTime       `xml:",attr"`
+	PropertyOperation xsd.String         `xml:",attr"`
+	Source            []onvif.SimpleItem `xml:"Source>SimpleItem"`
+	Data              []onvif.SimpleItem `xml:"Data>SimpleItem"`
 }
 
 // ActionType for AttributedURIType

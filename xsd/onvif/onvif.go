@@ -1888,27 +1888,26 @@ type RecordingInformation struct {
 	Source            RecordingSourceInformation
 	EarliestRecording xsd.DateTime
 	LatestRecording   xsd.DateTime
-	ContentType       Description
-	Track             TrackInformation
+	Content           xsd.String `xml:"Content"`
+	Track             []TrackInformation
 	RecordingStatus   RecordingStatus
 }
 
-type RecordingReference struct {
-	ReferenceToken
-}
+type RecordingReference ReferenceToken
+type JobToken ReferenceToken
 
 type RecordingSourceInformation struct {
 	SourceId    xsd.AnyURI
 	Name        Name
-	Location    Description
-	Description Description
+	Location    xsd.String `xml:"Location"`
+	Description xsd.String `xml:"Description"`
 	Address     xsd.AnyURI
 }
 
 type TrackInformation struct {
 	TrackToken  TrackReference
 	TrackType   TrackType
-	Description Description
+	Description xsd.String
 	DataFrom    xsd.DateTime
 	DataTo      xsd.DateTime
 }

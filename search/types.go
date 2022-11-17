@@ -26,17 +26,17 @@ type GetRecordingSummaryResponse struct {
 	Summary onvif.RecordingSummary
 }
 type GetRecordingInformation struct {
-	RecordingToken onvif.RecordingReference `xml:"tse:RecordingReference"`
+	RecordingToken onvif.RecordingReference `xml:"RecordingReference"`
 }
 type GetRecordingInformationResponse struct {
-	RecordingInformation onvif.RecordingInformation `xml:"tse:RecordingInformation"`
+	RecordingInformation onvif.RecordingInformation `xml:"RecordingInformation"`
 }
 type GetMediaAttributes struct {
 }
 type GetMediaAttributesResponse struct {
 }
 type FindRecordings struct {
-	Scope         onvif.SearchScope
+	Scope         xsd.String //onvif.SearchScope
 	MaxMatches    xsd.Int
 	KeepAliveTime xsd.Duration
 }
@@ -44,14 +44,24 @@ type FindRecordingsResponse struct {
 	SearchToken xsd.Token
 }
 type GetRecordingSearchResults struct {
+	SearchToken xsd.Token
+	MinResults  xsd.Int
+	MaxResults  xsd.Int
+	WaitTime    xsd.Duration
 }
 type GetRecordingSearchResultsResponse struct {
+	ResultList FindRecordingResultList `xml:"ResultList"`
+}
+
+type FindRecordingResultList struct {
+	SearchState          xsd.String                   `xml:"SearchState"`
+	RecordingInformation []onvif.RecordingInformation `xml:"RecordingInformation"`
 }
 
 // Events
 type FindEvents struct {
-	StartPoint       onvif.DateTime
-	EndPoint         onvif.DateTime
+	StartPoint       xsd.DateTime
+	EndPoint         xsd.DateTime
 	Scope            onvif.Scope
 	SearchFilter     event.FilterType //wsdl specifies type EventFilter - I think this is right and it's an xPath expresion.
 	IncludeStartDate xsd.Boolean
@@ -73,14 +83,14 @@ type GetEventSearchResultsResponse struct {
 
 type FindEventResultList struct {
 	SearchState State `xml:"tt:SearchState"`
-	Result      FindEventResult
+	Result      []FindEventResult
 }
 
 type FindEventResult struct {
-	RecordingToken  onvif.RecordingReference
-	TrackToken      onvif.TrackReference
-	Time            onvif.DateTime
-	Event           event.NotificationMessageHolderType
+	RecordingToken  onvif.RecordingReference            `xml:"RecordingToken"`
+	TrackToken      onvif.TrackReference                `xml:"TrackToken"`
+	Time            xsd.DateTime                        `xml:"Time"`
+	Event           event.NotificationMessageHolderType `xml:"Event"`
 	StartStateEvent xsd.Boolean
 }
 
@@ -109,6 +119,7 @@ type GetSearchStateResponse struct {
 type EndSearch struct {
 	SearchToken xsd.Token
 }
+
 type EndSearchResponse struct {
 	Endpoint onvif.DateTime
 }
