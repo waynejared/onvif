@@ -1884,7 +1884,7 @@ type RecordingSummary struct {
 }
 
 type RecordingInformation struct {
-	RecordingToken    RecordingReference
+	RecordingToken    xsd.Token
 	Source            RecordingSourceInformation
 	EarliestRecording xsd.DateTime
 	LatestRecording   xsd.DateTime
@@ -1893,7 +1893,7 @@ type RecordingInformation struct {
 	RecordingStatus   RecordingStatus
 }
 
-type RecordingReference ReferenceToken
+// type RecordingReference ReferenceToken
 type JobToken ReferenceToken
 
 type RecordingSourceInformation struct {
@@ -1905,7 +1905,7 @@ type RecordingSourceInformation struct {
 }
 
 type TrackInformation struct {
-	TrackToken  TrackReference
+	TrackToken  xsd.Token
 	TrackType   TrackType
 	Description xsd.String
 	DataFrom    xsd.DateTime
@@ -1944,7 +1944,7 @@ type TrackType xsd.String
 
 type SearchScope struct {
 	IncludedSources            SourceReference
-	IncludedRecordings         RecordingReference
+	IncludedRecordings         xsd.Token
 	RecordingInformationFilter xsd.String
 	Extension                  SearchScopeExtension
 }

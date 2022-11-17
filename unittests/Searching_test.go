@@ -80,6 +80,16 @@ func TestFindRecordings(t *testing.T) {
 	require.NoError(t, err)
 	log.Println(RecordingSearchResults)
 
+	RIToken := search.GetRecordingInformation{
+		RecordingToken: RecordingSearchResults.ResultList.RecordingInformation[0].RecordingToken,
+	}
+	if RIToken.RecordingToken != "" {
+		OneRecording, err := sdk_search.Call_GetRecordingInformation(ctx, camera.d, RIToken)
+		log.Println(OneRecording)
+		require.NotEmpty(t, OneRecording)
+		require.NoError(t, err)
+	}
+
 	EndSearchResponse, err := sdk_search.Call_EndSearch(ctx, camera.d, search.EndSearch(SessionToken))
 	require.NotNil(t, EndSearchResponse)
 	require.NoError(t, err)

@@ -26,7 +26,7 @@ type GetRecordingSummaryResponse struct {
 	Summary onvif.RecordingSummary
 }
 type GetRecordingInformation struct {
-	RecordingToken onvif.RecordingReference `xml:"RecordingReference"`
+	RecordingToken xsd.Token //`xml:"RecordingReference"`
 }
 type GetRecordingInformationResponse struct {
 	RecordingInformation onvif.RecordingInformation `xml:"RecordingInformation"`
@@ -87,7 +87,7 @@ type FindEventResultList struct {
 }
 
 type FindEventResult struct {
-	RecordingToken  onvif.RecordingReference            `xml:"RecordingToken"`
+	RecordingToken  xsd.Token                           `xml:"RecordingToken"`
 	TrackToken      onvif.TrackReference                `xml:"TrackToken"`
 	Time            xsd.DateTime                        `xml:"Time"`
 	Event           event.NotificationMessageHolderType `xml:"Event"`
