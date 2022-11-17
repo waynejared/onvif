@@ -1894,7 +1894,7 @@ type RecordingInformation struct {
 }
 
 // type RecordingReference ReferenceToken
-type JobToken ReferenceToken
+type JobToken xsd.Token
 
 type RecordingSourceInformation struct {
 	SourceId    xsd.AnyURI

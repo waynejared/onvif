@@ -90,6 +90,15 @@ func TestFindRecordings(t *testing.T) {
 		require.NoError(t, err)
 	}
 
+	MyToken := search.GetSearchState{
+		SearchToken: SessionToken.SearchToken,
+	}
+
+	SearchState, err := sdk_search.Call_GetSearchState(ctx, camera.d, MyToken)
+	log.Println(SearchState)
+	require.NoError(t, err)
+	require.NotEmpty(t, SearchState)
+
 	EndSearchResponse, err := sdk_search.Call_EndSearch(ctx, camera.d, search.EndSearch(SessionToken))
 	require.NotNil(t, EndSearchResponse)
 	require.NoError(t, err)
