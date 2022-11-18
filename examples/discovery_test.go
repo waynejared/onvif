@@ -16,7 +16,7 @@ import (
 )
 
 func TestGetAvailableDevicesAtSpecificEthernetInterface(t *testing.T) {
-	s, err := onvif.GetAvailableDevicesAtSpecificEthernetInterface("Wi-Fi")
+	s, err := onvif.GetAvailableDevicesAtSpecificEthernetInterface("Eth2")
 	log.Printf("\nError: %v\nResult:\n%v", err, s)
 }
 
