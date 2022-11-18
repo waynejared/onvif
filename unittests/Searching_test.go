@@ -11,7 +11,6 @@ import (
 	sdk_search "github.com/waynejared/onvif/sdk/search"
 	"github.com/waynejared/onvif/search"
 	"github.com/waynejared/onvif/xsd"
-	"github.com/waynejared/onvif/xsd/onvif"
 )
 
 func TestGetServiceCapabilities(t *testing.T) {
@@ -60,12 +59,48 @@ func TestFindRecordings(t *testing.T) {
 	camera := New(&http.Client{})
 	err := camera.Init(ctx)
 	require.NoError(t, err)
-	var SearchFilter search.FindRecordings
-	SearchFilter.KeepAliveTime = "PT5M"
-	SearchFilter.MaxMatches = 100
+
+	SearchFilter := search.FindRecordings{
+		KeepAliveTime: "PT5M",
+		MaxMatches:    100,
+	}
 
 	SessionToken, err := sdk_search.Call_FindRecordings(ctx, camera.d, SearchFilter)
 	require.NotNil(t, SessionToken)
+	require.NoError(t, err)
+
+	GetRecordingSearchResults := search.GetRecordingSearchResults{
+		SearchToken: SessionToken.SearchToken,
+		MinResults:  50,
+		MaxResults:  50,
+		WaitTime:    "PT10M",
+	}
+
+	RecordingSearchResults, err := sdk_search.Call_GetRecordingSearchResults(ctx, camera.d, GetRecordingSearchResults)
+	require.NoError(t, err)
+	log.Println(RecordingSearchResults)
+
+	RIToken := search.GetRecordingInformation{
+		RecordingToken: RecordingSearchResults.ResultList.RecordingInformation[0].RecordingToken,
+	}
+	if RIToken.RecordingToken != "" {
+		OneRecording, err := sdk_search.Call_GetRecordingInformation(ctx, camera.d, RIToken)
+		log.Println(OneRecording)
+		require.NotEmpty(t, OneRecording)
+		require.NoError(t, err)
+	}
+
+	MyToken := search.GetSearchState{
+		SearchToken: SessionToken.SearchToken,
+	}
+
+	SearchState, err := sdk_search.Call_GetSearchState(ctx, camera.d, MyToken)
+	log.Println(SearchState)
+	require.NoError(t, err)
+	require.NotEmpty(t, SearchState)
+
+	EndSearchResponse, err := sdk_search.Call_EndSearch(ctx, camera.d, search.EndSearch(SessionToken))
+	require.NotNil(t, EndSearchResponse)
 	require.NoError(t, err)
 }
 
@@ -75,36 +110,43 @@ func TestFindEvents(t *testing.T) {
 	err := camera.Init(ctx)
 	require.NoError(t, err)
 	CurrentDT := time.Now()
+	StartDT := CurrentDT.AddDate(0, 0, -1)
 
+	/*	FindEventsFilter := search.FindEvents{
+			StartPoint: onvif.DateTime{
+				Time: onvif.Time{
+					Hour:   xsd.Int(CurrentDT.Hour()),
+					Minute: xsd.Int(CurrentDT.Minute()),
+					Second: xsd.Int(CurrentDT.Second()),
+				},
+				Date: onvif.Date{
+					Year:  xsd.Int(CurrentDT.Year()),
+					Month: xsd.Int(CurrentDT.Month()),
+					Day:   xsd.Int(CurrentDT.Day() - 1),
+				},
+			},
+			EndPoint: onvif.DateTime{
+				Time: onvif.Time{
+					Hour:   xsd.Int(CurrentDT.Hour()),
+					Minute: xsd.Int(CurrentDT.Minute()),
+					Second: xsd.Int(CurrentDT.Second()),
+				},
+				Date: onvif.Date{
+					Year:  xsd.Int(CurrentDT.Year()),
+					Month: xsd.Int(int(CurrentDT.Month())),
+					Day:   xsd.Int(CurrentDT.Day()),
+				},
+			},
+			MaxMatches:    100,
+			KeepAliveTime: "PT10M",
+		}
+	*/
 	FindEventsFilter := search.FindEvents{
-		StartPoint: onvif.DateTime{
-			Time: onvif.Time{
-				Hour:   xsd.Int(CurrentDT.Hour()),
-				Minute: xsd.Int(CurrentDT.Minute()),
-				Second: xsd.Int(CurrentDT.Second()),
-			},
-			Date: onvif.Date{
-				Year:  xsd.Int(CurrentDT.Year()),
-				Month: xsd.Int(CurrentDT.Month() - 1),
-				Day:   xsd.Int(CurrentDT.Day()),
-			},
-		},
-		EndPoint: onvif.DateTime{
-			Time: onvif.Time{
-				Hour:   xsd.Int(CurrentDT.Hour()),
-				Minute: xsd.Int(CurrentDT.Minute()),
-				Second: xsd.Int(CurrentDT.Second()),
-			},
-			Date: onvif.Date{
-				Year:  xsd.Int(CurrentDT.Year()),
-				Month: xsd.Int(int(CurrentDT.Month())),
-				Day:   xsd.Int(CurrentDT.Day()),
-			},
-		},
+		StartPoint:    xsd.DateTime(xsd.DateTime(StartDT.String())),
+		EndPoint:      xsd.DateTime(CurrentDT.String()),
 		MaxMatches:    100,
 		KeepAliveTime: "PT10M",
 	}
-
 	SearchToken, err := sdk_search.Call_FindEvents(ctx, camera.d, FindEventsFilter)
 	require.NotNil(t, SearchToken)
 	require.NoError(t, err)
