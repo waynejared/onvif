@@ -13,7 +13,7 @@ import (
 	"github.com/waynejared/onvif/xsd"
 )
 
-func TestGetServiceCapabilities(t *testing.T) {
+func TestGetSearchServiceCapabilities(t *testing.T) {
 	//Get and check the service capabilities for search
 	ctx := context.TODO()
 	camera := New(&http.Client{})
