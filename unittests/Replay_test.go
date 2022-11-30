@@ -9,6 +9,7 @@ import (
 	"github.com/stretchr/testify/require"
 	"github.com/waynejared/onvif/replay"
 	"github.com/waynejared/onvif/xsd/onvif"
+	"golift.io/ffmpeg"
 
 	sdk_replay "github.com/waynejared/onvif/sdk/replay"
 )
@@ -58,5 +59,30 @@ func TestGetReplayURI(t *testing.T) {
 	} else {
 		log.Printf("\nError: %v", err)
 	}
+
+	ffmpeg.DefaultFFmpegPath = "C:/Program Files/ffmpeg/ffmpeg.exe"
+	dahua := string(ReplayURIResp.Uri)[0:7] + "wayne:Ratbert1@" + string(ReplayURIResp.Uri)[7:]
+	output := "c:/temp/RecordedVideo.m4v"
+	encode := ffmpeg.Get(&ffmpeg.Config{
+		Audio:  true, // retain audio stream
+		Time:   10,   // 10 seconds
+		Width:  1920,
+		Height: 1080,
+		CRF:    23,
+		Level:  "4.0",
+		Rate:   5,
+		Prof:   "baseline", // or main or high
+	})
+
+	cmd, out, err := encode.SaveVideo(dahua, output, "DahuaVideoTitle")
+
+	log.Println("Command Used:", cmd)
+	log.Println("Command Output:", out)
+
+	if err != nil {
+		log.Fatalln(err)
+	}
+
+	log.Println("Saved file from", dahua, "to", output)
 
 }
