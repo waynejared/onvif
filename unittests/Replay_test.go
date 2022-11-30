@@ -59,9 +59,10 @@ func TestGetReplayURI(t *testing.T) {
 	} else {
 		log.Printf("\nError: %v", err)
 	}
+	MyEnvVars := GetEnvValues()
 
 	ffmpeg.DefaultFFmpegPath = "C:/Program Files/ffmpeg/ffmpeg.exe"
-	dahua := string(ReplayURIResp.Uri)[0:7] + "wayne:Ratbert1@" + string(ReplayURIResp.Uri)[7:]
+	dahua := string(ReplayURIResp.Uri)[0:7] + MyEnvVars.user + ":" + MyEnvVars.pass + "@" + string(ReplayURIResp.Uri)[7:]
 	output := "c:/temp/RecordedVideo.m4v"
 	encode := ffmpeg.Get(&ffmpeg.Config{
 		Audio:  true, // retain audio stream
