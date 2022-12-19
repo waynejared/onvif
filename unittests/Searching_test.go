@@ -61,6 +61,7 @@ func TestFindRecordings(t *testing.T) {
 	require.NoError(t, err)
 
 	SearchFilter := search.FindRecordings{
+
 		KeepAliveTime: "PT5M",
 		MaxMatches:    100,
 	}
@@ -105,51 +106,30 @@ func TestFindRecordings(t *testing.T) {
 }
 
 func TestFindEvents(t *testing.T) {
+	/*
+	This returns recording events (not actual events)
+	Looks like a set of 3 events for 
+	*/
 	ctx := context.TODO()
 	camera := New(&http.Client{})
 	err := camera.Init(ctx)
 	require.NoError(t, err)
-	CurrentDT := time.Now()
+	CurrentDT := time.Now().UTC()
 	StartDT := CurrentDT.AddDate(0, 0, -1)
 
-	/*	FindEventsFilter := search.FindEvents{
-			StartPoint: onvif.DateTime{
-				Time: onvif.Time{
-					Hour:   xsd.Int(CurrentDT.Hour()),
-					Minute: xsd.Int(CurrentDT.Minute()),
-					Second: xsd.Int(CurrentDT.Second()),
-				},
-				Date: onvif.Date{
-					Year:  xsd.Int(CurrentDT.Year()),
-					Month: xsd.Int(CurrentDT.Month()),
-					Day:   xsd.Int(CurrentDT.Day() - 1),
-				},
-			},
-			EndPoint: onvif.DateTime{
-				Time: onvif.Time{
-					Hour:   xsd.Int(CurrentDT.Hour()),
-					Minute: xsd.Int(CurrentDT.Minute()),
-					Second: xsd.Int(CurrentDT.Second()),
-				},
-				Date: onvif.Date{
-					Year:  xsd.Int(CurrentDT.Year()),
-					Month: xsd.Int(int(CurrentDT.Month())),
-					Day:   xsd.Int(CurrentDT.Day()),
-				},
-			},
-			MaxMatches:    100,
-			KeepAliveTime: "PT10M",
-		}
-	*/
 	FindEventsFilter := search.FindEvents{
-		StartPoint:    xsd.DateTime(xsd.DateTime(StartDT.String())),
-		EndPoint:      xsd.DateTime(CurrentDT.String()),
+		StartPoint:    xsd.DateTime(CurrentDT.String()),
+		EndPoint:      xsd.DateTime(xsd.DateTime(StartDT.String())),
 		MaxMatches:    100,
 		KeepAliveTime: "PT10M",
 	}
+	log.Printf(string(FindEventsFilter.StartPoint))
+	log.Printf(string(FindEventsFilter.EndPoint))
+
 	SearchToken, err := sdk_search.Call_FindEvents(ctx, camera.d, FindEventsFilter)
 	require.NotNil(t, SearchToken)
 	require.NoError(t, err)
+	log.Printf("Search Token\n")
 	log.Println(SearchToken)
 
 	GetEventSearchResults := search.GetEventSearchResults{
